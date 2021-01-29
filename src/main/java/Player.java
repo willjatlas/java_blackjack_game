@@ -17,6 +17,8 @@ public class Player {
 
     public ArrayList<Card> getHand() { return hand; }
 
+    public int getHandSize() { return hand.size(); }
+
     public void addCardToHand(Card card) { this.hand.add(card); }
 
     public void emptyHand(){ this.hand.clear(); }

@@ -13,11 +13,20 @@ public class Game {
         this.dealer  = new Player("Dealer");
     }
 
-    public void addPlayer(Player player){ this.players.add(player); }
-
     public int countPlayers(){ return this.players.size(); }
 
     public Deck getDeck(){ return this.deck; }
+
+    public void addPlayer(Player player){ this.players.add(player); }
+
+    public Player getPlayerByName(String plyr){
+        for(Player player : players){
+            if(player.getName().equals(plyr)){
+                return player;
+            }
+        }
+        return null;
+    }
 
     public void setUpCards(){
         deck.emptyDeck();

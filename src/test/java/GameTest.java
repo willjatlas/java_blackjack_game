@@ -22,6 +22,16 @@ public class GameTest {
         assertEquals(52, game.getDeck().getDeckCount());
     }
 
+    @Test
+    public void canDealPlayersACardEach(){
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.setUpCards();
+        game.dealCardsToPlayers();
+        assertEquals(1, game.getPlayerByName("Jackie Chan").getHandSize());
+    }
+
+
 
 
 }
