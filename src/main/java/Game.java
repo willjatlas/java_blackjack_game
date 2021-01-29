@@ -17,6 +17,8 @@ public class Game {
 
     public int countPlayers(){ return this.players.size(); }
 
+    public Deck getDeck(){ return this.deck; }
+
     public void setUpCards(){
         deck.emptyDeck();
         deck.populateDeck();
