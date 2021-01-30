@@ -5,10 +5,12 @@ public class Player {
 
     private String name;
     private ArrayList<Card> hand;
+    private int handTotal;
 
     public Player(String name){
-        this.name = name;
-        this.hand = new ArrayList<>();
+        this.name      = name;
+        this.hand      = new ArrayList<>();
+        this.handTotal = 0;
     }
 
     public String getName() { return name; }
@@ -19,8 +21,16 @@ public class Player {
 
     public int getHandSize() { return hand.size(); }
 
+    public int getHandTotal() { return handTotal; }
+
     public void addCardToHand(Card card) { this.hand.add(card); }
 
     public void emptyHand(){ this.hand.clear(); }
+
+    public void calcHandTotal(){
+        for(Card card : hand){
+            handTotal += card.getRank().getValue();
+        }
+    }
 
 }

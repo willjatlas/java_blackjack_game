@@ -27,7 +27,7 @@ public class GameTest {
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.setUpCards();
-        game.dealCardsToPlayers();
+        game.dealCardToPlayers();
         assertEquals(1, game.getPlayerByName("Jackie Chan").getHandSize());
     }
 
