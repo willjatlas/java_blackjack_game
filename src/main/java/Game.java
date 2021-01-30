@@ -6,22 +6,28 @@ public class Game {
     private ArrayList<Player> players;
     private Deck deck;
     private Player dealer;
+    private Player winner;
     private Scanner gameIn;
     private int numOfPlyrs;
+    private int highHand;
 
     public Game(){
         this.players    = new ArrayList<Player>();
         this.deck       = new Deck();
         this.dealer     = new Player("Dealer");
+        this.winner     = null;
         this.gameIn     = new Scanner(System.in);
         this.numOfPlyrs = 0;
+        this.highHand   = 0;
     }
-
-    public int countPlayers(){ return this.players.size(); }
 
     public Deck getDeck(){ return this.deck; }
 
     public void addPlayer(Player player){ this.players.add(player); }
+
+    public int getPlayersCount(){ return players.size();}
+
+    public Player getWinner(){ return winner; }
 
     public void setNumOfPlyrs(int i){ numOfPlyrs = i; }
 
@@ -70,21 +76,21 @@ public class Game {
         }
     }
 
-   public Player calcWinner(){
-        Player winner = null;
-        int highestHand = 0;
+   public void calcWinner(){
         for(Player player : players){
             player.calcHandTotal();
-            if(player.getHandTotal() > highestHand){
+            int pTotal = player.getHandTotal();
+            if(pTotal > highHand){
+                highHand = pTotal;
                 winner = player;
             }
         }
     }
 
-    public void displayWinner(Player winner){
+    public void displayWinner(){
         System.out.println(winner.getName() +
-                            " Won with a score of " +
-                            winner.getHandTotal());
+                          " Won with a score of " +
+                           winner.getHandTotal());
     }
 
     public void playGame(){
@@ -95,8 +101,8 @@ public class Game {
         dealCardToPlayers();
         dealCardToPlayers();
         displayCards();
-        Player winner = calcWinner();
-        displayWinner(winner);
+        calcWinner();
+        displayWinner();
         gameIn.close();
     }
 
