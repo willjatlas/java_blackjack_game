@@ -79,7 +79,6 @@ public class Game {
                 winner = player;
             }
         }
-        return winner;
     }
 
     public void displayWinner(Player winner){
