@@ -110,22 +110,17 @@ public class Game {
         else System.out.println("Everyone is BUST");
     }
 
-    public boolean checkYesOrNo(String input){
-        String i = input.trim().toLowerCase();
-        boolean out = false;
-        if(i.equals("y")){
-            out = true;
+    public String handleNotYesOrNo(){
+        System.out.println("Unrecognised input, try (y) or (n)...");
+        String input = gameIn.nextLine();
+        if(!"n".equals(input) && !"y".equals(input)){
+            handleNotYesOrNo();
         }
-        else if (!"n".equals(i)) {
-            System.out.println("Unrecognised input, try (y) or (n)...");
-            checkYesOrNo(gameIn.nextLine());
-        }
-        return out;
+        return input;
     }
 
-    public void askTwistOrStick(Player player){
-        System.out.println(player.getName() + ", twist (y) or stick (n) ?! ");
-        if(checkYesOrNo(gameIn.nextLine())){
+    public void handleYesOrNo(String input, Player player){
+        if(input.equals("y")){
             deck.dealCardToPlayer(player);
             displayPlayerCards(player);
             player.calcHandTotal();
@@ -136,6 +131,15 @@ public class Game {
             }
             else System.out.println("Sorry " + player.getName() + ", you're BUST!");
         }
+    }
+
+    public void askTwistOrStick(Player player){
+        System.out.println(player.getName() + ", twist (y) or stick (n) ?! ");
+        String input = gameIn.nextLine().trim().toLowerCase();
+        if(!"n".equals(input) && !"y".equals(input)){
+            input = handleNotYesOrNo();
+        }
+        handleYesOrNo(input, player);
     }
 
     public void checkPlayersTwistOrStick(){
