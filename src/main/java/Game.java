@@ -136,6 +136,7 @@ public class Game {
     }
 
     public void checkDealerPlay(){
+        dealer.calcHandTotal();
         if(dealer.getHandTotal() < 16){
             deck.dealCardToPlayer(dealer);
             dealer.calcHandTotal();
