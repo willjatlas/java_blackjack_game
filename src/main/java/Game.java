@@ -111,7 +111,16 @@ public class Game {
     }
 
     public boolean checkYesOrNo(String input){
-        return input.trim().toLowerCase().equals("y");
+        String i = input.trim().toLowerCase();
+        boolean out = false;
+        if(i.equals("y")){
+            out = true;
+        }
+        else if (!"n".equals(i)) {
+            System.out.println("Unrecognised input, try (y) or (n)...");
+            checkYesOrNo(gameIn.nextLine());
+        }
+        return out;
     }
 
     public void askTwistOrStick(Player player){
