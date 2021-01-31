@@ -66,7 +66,11 @@ public class Game {
         }
     }
 
-    public void displayCards(){
+    public void setIfBust(Player player) {
+        if (player.getHandTotal() > 21) player.setIsBust(true);
+    }
+
+    public void displayAllCards(){
         for(Player player : players){
             System.out.println(player.getName() + ": ");
             for(Card card : player.getHand()){
@@ -76,21 +80,71 @@ public class Game {
         }
     }
 
+    public void displayPlayerCards(Player player){
+        System.out.println(player.getName() + ": ");
+        for(Card card : player.getHand()){
+            System.out.println(card.getRank() + " of "
+                    + card.getSuit());
+        }
+    }
+
    public void calcWinner(){
-        for(Player player : players){
-            player.calcHandTotal();
-            int pTotal = player.getHandTotal();
-            if(pTotal > highHand){
-                highHand = pTotal;
-                winner = player;
+        for (Player player : players) {
+            if (!player.getIsBust()) {
+                player.calcHandTotal();
+                int pTotal = player.getHandTotal();
+                if (pTotal > highHand) {
+                    highHand = pTotal;
+                    winner = player;
+                }
             }
         }
     }
 
     public void displayWinner(){
-        System.out.println(winner.getName() +
-                          " Won with a score of " +
-                           winner.getHandTotal());
+        if(winner != null) {
+            System.out.println(winner.getName() +
+                    " Won with a score of " +
+                    winner.getHandTotal());
+        }
+        else System.out.println("Everyone is BUST");
+    }
+
+    public boolean checkYesOrNo(String input){
+        return input.trim().toLowerCase().equals("y");
+    }
+
+    public void askTwistOrStick(Player player){
+        System.out.println(player.getName() + ", twist (y) or stick (n) ?! ");
+        if(checkYesOrNo(gameIn.nextLine())){
+            deck.dealCardToPlayer(player);
+            displayPlayerCards(player);
+            player.calcHandTotal();
+            System.out.println(player.getHandTotal());
+            setIfBust(player);
+            if(!player.getIsBust()) {
+                askTwistOrStick(player);
+            }
+            else System.out.println("Sorry " + player.getName() + ", you're BUST!");
+        }
+    }
+
+    public void checkPlayersTwistOrStick(){
+        for(Player player : players.subList(1, players.size())){
+            askTwistOrStick(player);
+        }
+    }
+
+    public void checkDealerPlay(){
+        if(dealer.getHandTotal() < 16){
+            deck.dealCardToPlayer(dealer);
+            dealer.calcHandTotal();
+            setIfBust(dealer);
+            if(!dealer.getIsBust()) {
+                checkDealerPlay();
+            }
+            else System.out.println("Dealer is bust!");
+        }
     }
 
     public void playGame(){
@@ -100,14 +154,13 @@ public class Game {
         askForPlayerNames();
         dealCardToPlayers();
         dealCardToPlayers();
-        displayCards();
+        displayAllCards();
+        checkPlayersTwistOrStick();
+        checkDealerPlay();
+        displayAllCards();
         calcWinner();
         displayWinner();
         gameIn.close();
     }
-
-
-
-
 
 }
